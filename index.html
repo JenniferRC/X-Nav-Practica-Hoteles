@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <!--   Favicon   -->
+   <link rel="icon" href="images/icono.png">
+  <!--   Hacerlo escalable   -->
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minium-scale=1.0">
+  <title>HotelPlease</title>
+  <link href="http://cdn.leafletjs.com/leaflet-0.7.4/leaflet.css" rel="stylesheet">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.4/leaflet.js"></script>
+    <!--   jquery-ui para droppable   -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+      <!--   github  -->
+  <script src="github.js"></script>
+  <script src="github-api-2.js"></script>
+  <script type="text/javascript" src="220516AM.js"></script>
+  <!--bootstrap-->
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="googleapi.js"></script>
+  <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+  <link href="final.css" rel="stylesheet">
+</head>
+
+<body>
+ <span class="site-name">Rest in peace</span>
+  <div id="container">
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    	<div class="container-fluid">
+    	    <!-- Brand and toggle get grouped for better mobile display -->
+    	    <div class="navbar-header">
+    	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    	        <span class="sr-only">Toggle navigation</span>
+    	        <span class="icon-bar"></span>
+    	        <span class="icon-bar"></span>
+    	        <span class="icon-bar"></span>
+    	      </button>
+    	      <a class="navbar-brand">
+    	      	<img id="logotipe" alt="Brand" src="images/hotel.png">
+    	      </a>
+    	    </div>
+
+    	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          		<ul class="nav navbar-nav">
+            		<li id="inicio" class="active"><a href="#home"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+            		<li id="hoteles"><a href="#hotel"><span class="glyphicon glyphicon-th-list"></span> Colecciones</a></li>
+                <li id="collection"><a href="#collection"><span class="glyphicon glyphicon-user"></span> Asignaciones</a></li>
+            	</ul>
+
+          </div> <!--navbar collapse-->
+        </div><!--container fluid-->
+    </nav>
+
+    <div class="container" style="height: 100px";>
+          <!-- Example row of columns -->
+            <div class="col-md-12">
+              <div id=btn>
+                <button id="get" type="button" class="btn btn-primary navbar-btn"  state="none">Get hotels</button>
+                <button id="save" type="button" class="btn btn-primary navbar-btn" onclick= "guardar()"  state="none">Save Colletions</button>
+                <button id="show" type="button" class="btn btn-primary navbar-btn" onclick= "cargar()" state="none">Show Colletions</button>
+              </div>
+            </div>
+    </div>
+              <!--CREAR COLECCIONES +-->
+    <form class="form-group" style="width: 10%;" role="search">
+      <div class="form-group">
+        <button type="button" class="btn btn-default">Create Colection</button>
+        <input type="text" class="form-control" placeholder="New Collection">
+      </div>
+    </form>
+
+    <div class="container">
+        <div class="col-md-6">
+            <!--mapa para hoteles-->
+            <div id="map"></div>
+            </div>
+            <div class="col-md-3">
+            <!--contiene la lista de hoteles-->
+            <div id="finalList"></div>
+            </div>
+            <div class="col-md-3">
+            <!--Ventana con mis listas +-->
+            <div id="favs"></div>
+            </div>
+    </div>
+    <div class="container">
+        <div class="col-md-3">
+          <!--GOOGLE+/Mostrar asignaciones de hoteles-->
+          <div id="content"></div>
+          <!--GITHUB -->
+          <div id="formload" hidden>
+            <label>Token: </label><input type="text" id="token" name="token" value="" />
+            <label>Repositorio: </label> <input type="text" id="repo" name="repo" value="" />
+            <label>Fichero:</label> <input type="text" id="fich" name="fich" value="" />
+            <input type="button" id="toLoad" onclick= "toLoad()" value="Load" />
+          </div>
+          <!--GITHUB-->
+          <div id="formsave" hidden>
+            <label>Token: </label><input type="text" id="token2" name="token2" value="" />
+            <label>Repositorio: </label> <input type="text" id="repo2" name="repo2" value="" />
+            <label>Fichero:</label> <input type="text" id="fich2" name="fich2" value="" />
+            <input type="button" id="toSave" onclick= "toSave()" value="Save" />
+          </div>
+          <!--GOOGLE +-->
+          <form class="form_plus" id="form_plus" hidden>
+            <div id="newuserid">
+              <label>Nuevo id de usuario:</label>
+              <input id="id_plus" type="text" class="form-control"  placeholder="ID...">
+              <br><input type="submit" class="btn btn-primary" value="Añadir id">
+            </div>
+          </form>
+        </div>
+        <div class="col-md-9">
+          <p id="desc"></p>  <!--info de los hoteles cuando pulso uno-->
+        </div>
+    </div>
+
+
+  </div><!--div container-->
+
+  <div id="sidebar-wrapper">
+          <ul class="sidebar-nav">
+              <li class="sidebar-brand" />
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/" target="_blank"><img  height="32" src="images/lk.png" title="Sígueme en linked in" width="42" />
+              </li>
+              <li>
+                <a href="https://twitter.com/" target="_blank"><img height="32" src="images/twt.png" title="Sígueme en twiter" width="42" />
+              </li>
+              <li>
+                <a href="https://www.facebook.com/" target="_blank"><img height="32" src="images/fb.png" title="Sígueme en fb" width="42" />
+              </li>
+          </ul>
+      </div>
+</body>
+</html>

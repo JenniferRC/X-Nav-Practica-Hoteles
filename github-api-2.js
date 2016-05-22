@@ -1,0 +1,2 @@
+var github;
+var myrepo;
